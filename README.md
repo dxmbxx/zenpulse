@@ -3,6 +3,10 @@
 Мобильный прототип приложения для медитаций, выполненный на **React Native + Expo**.  
 В рамках тестового задания реализованы 3 экрана: **Meditations**, **Paywall** и **AI Mood**.
 
+# Видео материалы
+
+**https://drive.google.com/drive/folders/1yylUuZYmcn1ShEOCp-SOXiPdh0GyAsWz?usp=drive_link**
+
 ## Что реализовано
 
 - **Meditations** — список медитаций с карточками, изображением и длительностью
