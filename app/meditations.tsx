@@ -49,19 +49,37 @@ export default function MeditationsScreen() {
               <View style={styles.overlay} />
 
               <View style={styles.cardContent}>
-                <View style={styles.metaBadge}>
-                  <Text style={styles.metaBadgeText}>{item.duration}</Text>
+                <View style={styles.topRow}>
+                  <View style={styles.metaBadge}>
+                    <Text style={styles.metaBadgeText}>{item.duration}</Text>
+                  </View>
+
+                  {item.premium && (
+                    <View style={[styles.premiumTag, locked && styles.premiumTagLocked]}>
+                      <Text style={styles.premiumTagText}>PREMIUM</Text>
+                    </View>
+                  )}
                 </View>
 
                 <View style={styles.bottomRow}>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.cardTitle}>{item.title}</Text>
-                    <Text style={styles.cardSubtitle}>
-                      {locked ? 'Premium only' : 'Available now'}
+                    <Text
+                      style={[
+                        styles.cardSubtitle,
+                        locked && styles.cardSubtitleLocked,
+                      ]}
+                    >
+                      {locked ? 'Locked • Upgrade to listen' : 'Available now'}
                     </Text>
                   </View>
 
-                  <View style={styles.iconWrap}>
+                  <View
+                    style={[
+                      styles.iconWrap,
+                      locked && styles.iconWrapLocked,
+                    ]}
+                  >
                     {locked ? (
                       <Ionicons name="lock-closed" size={18} color="#fff" />
                     ) : (
@@ -87,11 +105,11 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 16,
-    paddingTop: 6,
-    paddingBottom: 28,
+    paddingTop: 10,
+    paddingBottom: 32,
   },
   header: {
-    marginBottom: 18,
+    marginBottom: 20,
   },
   eyebrow: {
     color: '#C4B5FD',
@@ -102,8 +120,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FAF7FF',
-    fontSize: 34,
-    lineHeight: 38,
+    fontSize: 32,
+    lineHeight: 40,
     fontWeight: '800',
     letterSpacing: -1,
   },
@@ -131,7 +149,8 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   card: {
-    height: 190,
+    minHeight: 180,
+    aspectRatio: 16 / 9,
     borderRadius: 28,
     overflow: 'hidden',
     marginBottom: 16,
@@ -143,11 +162,16 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(6,6,10,0.22)',
+    backgroundColor: 'rgba(6,6,10,0.28)',
   },
   cardContent: {
     ...StyleSheet.absoluteFillObject,
     padding: 16,
+    justifyContent: 'space-between',
+  },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   metaBadge: {
@@ -162,13 +186,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
+  premiumTag: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 999,
+    backgroundColor: 'rgba(249, 250, 251, 0.18)',
+  },
+  premiumTagLocked: {
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+  },
+  premiumTagText: {
+    color: '#FDE68A',
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
   bottomRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
   cardTitle: {
     color: '#FFFFFF',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '800',
     letterSpacing: -0.6,
   },
@@ -176,6 +215,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.78)',
     fontSize: 14,
     marginTop: 4,
+  },
+  cardSubtitleLocked: {
+    color: 'rgba(209,213,219,0.85)',
   },
   iconWrap: {
     width: 44,
@@ -186,8 +228,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 12,
   },
+  iconWrapLocked: {
+    backgroundColor: 'rgba(15,23,42,0.8)',
+  },
   lockTint: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(15,10,30,0.28)',
+    backgroundColor: 'rgba(15,10,30,0.45)',
   },
 });
