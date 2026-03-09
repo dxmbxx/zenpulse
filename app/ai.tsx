@@ -1,6 +1,12 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../components/PrimaryButton';
 import { Mood, generateAffirmation } from '../lib/ai';
@@ -14,11 +20,18 @@ export default function AiScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={styles.content}>
-        <Text style={styles.title}>AI Mood of the Day</Text>
-        <Text style={styles.subtitle}>
-          Pick your vibe and generate a short guided affirmation.
-        </Text>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={styles.eyebrow}>AI MOOD</Text>
+          <Text style={styles.title}>Tune your day</Text>
+          <Text style={styles.subtitle}>
+            Choose how you feel and let ZenPulse craft a gentle, guided
+            affirmation for your current mood.
+          </Text>
+        </View>
 
         <View style={styles.moods}>
           {moods.map((mood) => (
@@ -45,23 +58,23 @@ export default function AiScreen() {
         />
 
         <View style={styles.resultCard}>
-          <Text style={styles.resultLabel}>AI-crafted for your mood</Text>
+          <Text style={styles.resultLabel}>AI-crafted affirmation</Text>
           <Text style={styles.resultText}>
-            {result || 'Your affirmation will appear here.'}
+            {result || 'Your affirmation will appear here after generation.'}
           </Text>
         </View>
 
         <View style={styles.promptBox}>
-          <Text style={styles.promptTitle}>Mock prompt used</Text>
+          <Text style={styles.promptTitle}>Prompt sent to the model</Text>
           <Text style={styles.promptText}>
-            {promptUsed || 'Prompt will appear after generation.'}
+            {promptUsed || 'Prompt will appear here after generation.'}
           </Text>
         </View>
 
         <Pressable onPress={() => router.push('/meditations')}>
           <Text style={styles.back}>← Back to Meditations</Text>
         </Pressable>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -69,22 +82,36 @@ export default function AiScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: '#09090B',
+    backgroundColor: '#07070C',
   },
   content: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 28,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  eyebrow: {
+    color: '#C4B5FD',
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1.1,
+    marginBottom: 8,
   },
   title: {
-    color: 'white',
+    color: '#FAF7FF',
     fontSize: 30,
+    lineHeight: 34,
     fontWeight: '800',
   },
   subtitle: {
-    color: '#A1A1AA',
-    marginTop: 8,
+    color: 'rgba(255,255,255,0.72)',
+    marginTop: 10,
     fontSize: 15,
     lineHeight: 22,
+    maxWidth: '96%',
   },
   moods: {
     flexDirection: 'row',
@@ -109,10 +136,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   resultCard: {
-    marginTop: 20,
+    marginTop: 22,
     backgroundColor: '#18181B',
     borderRadius: 24,
-    padding: 18,
+    paddingVertical: 18,
+    paddingHorizontal: 18,
   },
   resultLabel: {
     color: '#C084FC',
@@ -130,7 +158,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
     backgroundColor: '#111827',
     borderRadius: 20,
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
   promptTitle: {
     color: '#93C5FD',
@@ -145,7 +174,7 @@ const styles = StyleSheet.create({
   },
   back: {
     color: '#D8B4FE',
-    marginTop: 18,
+    marginTop: 20,
     fontSize: 15,
     fontWeight: '700',
   },
