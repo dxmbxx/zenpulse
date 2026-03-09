@@ -27,104 +27,93 @@ export default function PaywallScreen() {
         >
           <View style={styles.heroGlow} />
 
-          <View style={styles.content}>
-            <View style={styles.topRow}>
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>ZENPULSE PREMIUM</Text>
-              </View>
+          <View style={styles.topRow}>
+            <View style={styles.pill}>
+              <Text style={styles.pillText}>ZENPULSE PREMIUM</Text>
+            </View>
+          </View>
+
+          <Text style={styles.title}>
+            Unlock your{'\n'}deepest calm
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Personalized meditations, AI mood guidance, and premium rituals
+            crafted to help you feel grounded every day.
+          </Text>
+
+          <View style={styles.featureCard}>
+            <Text style={styles.featureTitle}>What’s inside</Text>
+
+            <View style={styles.featureItem}>
+              <View style={styles.featureDot} />
+              <Text style={styles.featureText}>Unlimited premium sessions</Text>
             </View>
 
-            <Text style={styles.title}>
-              Unlock your{'\n'}deepest calm
-            </Text>
-
-            <Text style={styles.subtitle}>
-              Personalized meditations, AI mood guidance, and premium rituals
-              crafted to help you feel grounded every day.
-            </Text>
-
-            <View style={styles.featureCard}>
-              <Text style={styles.featureTitle}>What’s inside</Text>
-
-              <View style={styles.featureItem}>
-                <View style={styles.featureDot} />
-                <Text style={styles.featureText}>Unlimited premium sessions</Text>
-              </View>
-
-              <View style={styles.featureItem}>
-                <View style={styles.featureDot} />
-                <Text style={styles.featureText}>AI mood-based affirmations</Text>
-              </View>
-
-              <View style={styles.featureItem}>
-                <View style={styles.featureDot} />
-                <Text style={styles.featureText}>
-                  Sleep, focus, anxiety & reset tracks
-                </Text>
-              </View>
-
-              <View style={styles.featureItem}>
-                <View style={styles.featureDot} />
-                <Text style={styles.featureText}>Exclusive new content every week</Text>
-              </View>
+            <View style={styles.featureItem}>
+              <View style={styles.featureDot} />
+              <Text style={styles.featureText}>AI mood-based affirmations</Text>
             </View>
 
-            <View style={styles.plans}>
-              <Pressable
-                onPress={() => setSelectedPlan('monthly')}
-                style={[
-                  styles.planCard,
-                  selectedPlan === 'monthly' && styles.planCardActive,
-                ]}
-              >
-                <View style={styles.planHeader}>
-                  <Text style={styles.planName}>Monthly</Text>
-                </View>
-
-                <Text style={styles.planPrice}>$9.99</Text>
-                <Text style={styles.planPeriod}>per month</Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setSelectedPlan('yearly')}
-                style={[
-                  styles.planCard,
-                  styles.yearlyCard,
-                  selectedPlan === 'yearly' && styles.planCardActive,
-                ]}
-              >
-                <View style={styles.planHeader}>
-                  <Text style={styles.bestValue}>BEST VALUE</Text>
-                  <Text style={styles.planName}>Yearly</Text>
-                </View>
-
-                <Text style={styles.planPrice}>$49.99</Text>
-                <Text style={styles.planPeriod}>per year</Text>
-                <Text style={styles.planSave}>Save 58%</Text>
-              </Pressable>
+            <View style={styles.featureItem}>
+              <View style={styles.featureDot} />
+              <Text style={styles.featureText}>Sleep, focus, anxiety & reset tracks</Text>
             </View>
 
+            <View style={styles.featureItem}>
+              <View style={styles.featureDot} />
+              <Text style={styles.featureText}>Exclusive new content every week</Text>
+            </View>
+          </View>
+
+          <View style={styles.plans}>
             <Pressable
-              style={styles.ctaButton}
-              onPress={() => {
-                buyPremium();
-                router.replace('/meditations');
-              }}
+              onPress={() => setSelectedPlan('monthly')}
+              style={[
+                styles.planCard,
+                selectedPlan === 'monthly' && styles.planCardActive,
+              ]}
             >
-              <LinearGradient
-                colors={['#FDE68A', '#F9A8D4', '#C4B5FD']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.ctaGradient}
-              >
-                <Text style={styles.ctaText}>Try 7 Days Free</Text>
-              </LinearGradient>
+              <View style={styles.planHeader}>
+                <Text style={styles.planName}>Monthly</Text>
+              </View>
+
+              <Text style={styles.planPrice}>$9.99</Text>
+              <Text style={styles.planPeriod}>per month</Text>
             </Pressable>
 
-            <Text style={styles.ctaSubtext}>
-              Cancel anytime • Mock purchase for prototype demo
-            </Text>
+            <Pressable
+              onPress={() => setSelectedPlan('yearly')}
+              style={[
+                styles.planCard,
+                styles.yearlyCard,
+                selectedPlan === 'yearly' && styles.planCardActive,
+              ]}
+            >
+              <View style={styles.planHeader}>
+                <Text style={styles.bestValue}>BEST VALUE</Text>
+                <Text style={styles.planName}>Yearly</Text>
+              </View>
+
+              <Text style={styles.planPrice}>$49.99</Text>
+              <Text style={styles.planPeriod}>per year</Text>
+              <Text style={styles.planSave}>Save 58%</Text>
+            </Pressable>
           </View>
+
+          <Pressable
+            style={styles.ctaButton}
+            onPress={() => {
+              buyPremium();
+              router.replace('/meditations');
+            }}
+          >
+            <Text style={styles.ctaText}>Try 7 Days Free</Text>
+          </Pressable>
+
+          <Text style={styles.ctaSubtext}>
+            Cancel anytime • Mock purchase for prototype demo
+          </Text>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -141,27 +130,21 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingTop: 16,
+    paddingTop: 12,
     paddingBottom: 32,
-  },
-  content: {
-    flexGrow: 1,
-    width: '100%',
-    maxWidth: 480,
-    alignSelf: 'center',
   },
   heroGlow: {
     position: 'absolute',
-    top: 40,
-    right: -40,
-    width: 220,
-    height: 220,
+    top: 24,
+    right: -56,
+    width: 190,
+    height: 190,
     borderRadius: 999,
-    backgroundColor: 'rgba(203, 172, 255, 0.16)',
+    backgroundColor: 'rgba(203, 172, 255, 0.18)',
   },
   topRow: {
-    marginTop: 6,
-    marginBottom: 22,
+    marginTop: 4,
+    marginBottom: 20,
   },
   pill: {
     alignSelf: 'flex-start',
@@ -180,8 +163,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FAF7FF',
-    fontSize: 40,
-    lineHeight: 44,
+    fontSize: 34,
+    lineHeight: 40,
     fontWeight: '800',
     letterSpacing: -1.2,
   },
@@ -194,17 +177,18 @@ const styles = StyleSheet.create({
   },
   featureCard: {
     marginTop: 26,
-    backgroundColor: 'rgba(255,255,255,0.07)',
+    backgroundColor: 'rgba(15,15,27,0.9)',
     borderRadius: 28,
-    padding: 18,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   featureTitle: {
     color: '#F5ECFF',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
-    marginBottom: 14,
+    marginBottom: 10,
   },
   featureItem: {
     flexDirection: 'row',
@@ -224,28 +208,27 @@ const styles = StyleSheet.create({
   },
   plans: {
     marginTop: 24,
-    gap: 14,
+    gap: 12,
   },
   planCard: {
     borderRadius: 28,
-    padding: 18,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    backgroundColor: 'rgba(17,17,31,0.96)',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
   },
   yearlyCard: {
-    backgroundColor: 'rgba(24,16,40,0.96)',
-    borderColor: '#FDE68A',
+    backgroundColor: 'rgba(216,180,254,0.12)',
   },
   planCardActive: {
     borderColor: '#E9D5FF',
-    shadowColor: '#D8B4FE',
-    shadowOpacity: 0.25,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 8,
+    backgroundColor: 'rgba(30,27,75,0.95)',
   },
   planHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
   },
   bestValue: {
@@ -257,12 +240,12 @@ const styles = StyleSheet.create({
   },
   planName: {
     color: '#FAF7FF',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
   },
   planPrice: {
     color: '#FFFFFF',
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: '800',
     letterSpacing: -1,
   },
@@ -275,18 +258,15 @@ const styles = StyleSheet.create({
     color: '#FDE68A',
     fontSize: 13,
     fontWeight: '700',
-    marginTop: 10,
+    marginTop: 8,
   },
   ctaButton: {
-    marginTop: 26,
-    borderRadius: 22,
-    overflow: 'hidden',
-  },
-  ctaGradient: {
+    marginTop: 28,
+    backgroundColor: '#F5EFFF',
     paddingVertical: 18,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 22,
   },
   ctaText: {
     color: '#1D1330',
