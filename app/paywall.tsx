@@ -6,12 +6,15 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppState } from '../lib/app-context';
 
 export default function PaywallScreen() {
   const { selectedPlan, setSelectedPlan, buyPremium } = useAppState();
+  const { height } = useWindowDimensions();
+  const isSmallScreen = height < 700;
 
   return (
     <LinearGradient
@@ -22,10 +25,15 @@ export default function PaywallScreen() {
     >
       <SafeAreaView style={styles.safe}>
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            isSmallScreen && styles.scrollContentSmall,
+          ]}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.heroGlow} />
+          <View
+            style={[styles.heroGlow, isSmallScreen && styles.heroGlowSmall]}
+          />
 
           <View style={styles.topRow}>
             <View style={styles.pill}>
@@ -33,7 +41,7 @@ export default function PaywallScreen() {
             </View>
           </View>
 
-          <Text style={styles.title}>
+          <Text style={[styles.title, isSmallScreen && styles.titleSmall]}>
             Unlock your{'\n'}deepest calm
           </Text>
 
@@ -42,7 +50,12 @@ export default function PaywallScreen() {
             crafted to help you feel grounded every day.
           </Text>
 
-          <View style={styles.featureCard}>
+          <View
+            style={[
+              styles.featureCard,
+              isSmallScreen && styles.featureCardCompact,
+            ]}
+          >
             <Text style={styles.featureTitle}>What’s inside</Text>
 
             <View style={styles.featureItem}>
@@ -66,7 +79,7 @@ export default function PaywallScreen() {
             </View>
           </View>
 
-          <View style={styles.plans}>
+          <View style={[styles.plans, isSmallScreen && styles.plansCompact]}>
             <Pressable
               onPress={() => setSelectedPlan('monthly')}
               style={[
@@ -102,7 +115,7 @@ export default function PaywallScreen() {
           </View>
 
           <Pressable
-            style={styles.ctaButton}
+            style={[styles.ctaButton, isSmallScreen && styles.ctaButtonCompact]}
             onPress={() => {
               buyPremium();
               router.replace('/meditations');
@@ -133,6 +146,10 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 32,
   },
+  scrollContentSmall: {
+    paddingTop: 10,
+    paddingBottom: 24,
+  },
   heroGlow: {
     position: 'absolute',
     top: 24,
@@ -141,6 +158,12 @@ const styles = StyleSheet.create({
     height: 190,
     borderRadius: 999,
     backgroundColor: 'rgba(203, 172, 255, 0.18)',
+  },
+  heroGlowSmall: {
+    top: 8,
+    right: -72,
+    width: 150,
+    height: 150,
   },
   topRow: {
     marginTop: 4,
@@ -168,6 +191,10 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: -1.2,
   },
+  titleSmall: {
+    fontSize: 30,
+    lineHeight: 34,
+  },
   subtitle: {
     marginTop: 14,
     color: 'rgba(255,255,255,0.72)',
@@ -183,6 +210,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.06)',
+  },
+  featureCardCompact: {
+    marginTop: 20,
   },
   featureTitle: {
     color: '#F5ECFF',
@@ -209,6 +239,10 @@ const styles = StyleSheet.create({
   plans: {
     marginTop: 24,
     gap: 12,
+  },
+  plansCompact: {
+    marginTop: 18,
+    gap: 10,
   },
   planCard: {
     borderRadius: 28,
@@ -267,6 +301,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  ctaButtonCompact: {
+    marginTop: 22,
   },
   ctaText: {
     color: '#1D1330',
