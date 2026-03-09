@@ -1,50 +1,63 @@
-# Welcome to your Expo app 👋
+# ZenPulse: AI Meditation App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобильный прототип приложения для медитаций, выполненный на **React Native + Expo**.  
+В рамках тестового задания реализованы 3 экрана: **Meditations**, **Paywall** и **AI Mood**.
 
-## Get started
+## Что реализовано
 
-1. Install dependencies
+- **Meditations** — список медитаций с карточками, изображением и длительностью
+- **Locked content** — премиум-контент заблокирован, если `isSubscribed === false`
+- **Paywall** — экран подписки с преимуществами Premium, двумя тарифами и кнопкой `Try 7 Days Free`
+- **AI Mood** — генерация короткой аффирмации по выбору одного из 3 смайликов
+- Генерация сделана через **prompt + mock-ответ**, чтобы показать AI-based flow без лишнего backend
 
-   ```bash
-   npm install
-   ```
+## Логика
 
-2. Start the app
+- Стартовый экран — **Meditations**
+- Бесплатные карточки доступны сразу
+- Если пользователь нажимает на premium-карточку при `isSubscribed === false`, происходит переход на **Paywall**
+- После нажатия **Try 7 Days Free** подписка считается активной, и premium-контент разблокируется
 
-   ```bash
-   npx expo start
-   ```
+## Как использовался ИИ
 
-In the output, you'll find options to open the app in a
+Для разработки использовался **Cursor**.  
+ИИ помогал:
+- собирать базовую структуру экранов
+- ускорять вёрстку
+- дорабатывать premium-стиль Paywall
+- исправлять mobile layout после проверки на устройстве
+- уточнять логику блокировки контента по флагу `isSubscribed`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Отдельно через prompt’ы я задавал:
+- mobile-first layout
+- поддержку SafeArea
+- корректную работу на маленьких экранах
+- условие: если `isSubscribed === false`, premium-контент должен быть визуально заблокирован и вести на Paywall
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Мобильная специфика
 
-## Get a fresh project
+При реализации учитывались требования мобильного UX:
 
-When you're ready, run:
+- использован **SafeAreaView**, чтобы контент не заходил на вырезы и системные зоны
+- экран подписки сделан с вертикальным запасом по высоте и scroll-friendly layout
+- кнопки и карточки имеют достаточно крупную кликабельную область
+- навигация организована через **Expo Router**
+- структура экранов разделена на отдельные route'ы: `/meditations`, `/paywall`, `/ai`
 
-```bash
-npm run reset-project
-```
+## Ответ на контрольный вопрос
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Хуже всего ИИ справляется с краевыми случаями мобильной вёрстки:
+- слишком жёсткие фиксированные высоты
+- тесный layout на маленьких экранах
+- неправильные отступы сверху и снизу
+- хрупкое absolute positioning
+- плохой контроль вертикального переполнения
 
-## Learn more
+Чтобы это контролировать, я:
+- явно просил делать **SafeArea-aware layout**
+- отдельно указывал поддержку маленьких экранов
+- просил избегать жёстких fixed-height решений
+- проверял результат вручную на мобильном устройстве
+- после генерации просил ИИ точечно исправлять только проблемные места, а не переписывать экран целиком
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Итоговый подход: **ИИ использовался для скорости, а ручная проверка — для контроля качества mobile UX**.
