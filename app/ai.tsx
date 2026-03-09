@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -34,8 +35,21 @@ export default function AiScreen() {
           <View style={styles.heroGlow} />
 
           <View style={styles.header}>
-            <View style={styles.pill}>
-              <Text style={styles.pillText}>AI MOOD</Text>
+            <View style={styles.topRow}>
+              <View style={styles.pill}>
+                <Text style={styles.pillText}>AI MOOD</Text>
+              </View>
+
+              <Pressable
+                onPress={() => router.push('/meditations')}
+                style={({ pressed }) => [
+                  styles.navButton,
+                  pressed && styles.navButtonPressed,
+                ]}
+                hitSlop={10}
+              >
+                <Ionicons name="close" size={18} color="#FAF7FF" />
+              </Pressable>
             </View>
 
             <Text style={styles.title}>Tune your day</Text>
@@ -82,10 +96,6 @@ export default function AiScreen() {
               {promptUsed || 'Prompt will appear here after generation.'}
             </Text>
           </View>
-
-          <Pressable onPress={() => router.push('/meditations')}>
-            <Text style={styles.back}>← Back to Meditations</Text>
-          </Pressable>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -113,6 +123,12 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
   },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
   pill: {
     alignSelf: 'flex-start',
     backgroundColor: 'rgba(255,255,255,0.08)',
@@ -121,13 +137,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 999,
-    marginBottom: 10,
   },
   pillText: {
     color: '#E9D5FF',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 1.1,
+  },
+  navButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(17,17,31,0.96)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.10)',
+  },
+  navButtonPressed: {
+    opacity: 0.75,
   },
   title: {
     color: '#FAF7FF',
@@ -204,11 +232,5 @@ const styles = StyleSheet.create({
     color: '#E5E7EB',
     fontSize: 14,
     lineHeight: 21,
-  },
-  back: {
-    color: '#D8B4FE',
-    marginTop: 20,
-    fontSize: 15,
-    fontWeight: '700',
   },
 });

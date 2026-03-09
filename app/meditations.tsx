@@ -8,7 +8,7 @@ import { meditations } from '../data/meditations';
 import { useAppState } from '../lib/app-context';
 
 export default function MeditationsScreen() {
-  const { isSubscribed } = useAppState();
+  const { isSubscribed, selectedPlan } = useAppState();
 
   return (
     <LinearGradient
@@ -37,13 +37,33 @@ export default function MeditationsScreen() {
                   needs today.
                 </Text>
 
-                <Pressable
-                  style={styles.aiButton}
-                  onPress={() => router.push('/ai')}
-                >
-                  <Text style={styles.aiButtonText}>Open AI Mood Feature</Text>
-                  <Ionicons name="sparkles" size={18} color="#1D1330" />
-                </Pressable>
+                <View style={styles.actions}>
+                  <Pressable
+                    style={styles.aiButton}
+                    onPress={() => router.push('/ai')}
+                  >
+                    <Text style={styles.aiButtonText}>Open AI Mood Feature</Text>
+                    <Ionicons name="sparkles" size={18} color="#1D1330" />
+                  </Pressable>
+
+                  <Pressable
+                    style={styles.planButton}
+                    onPress={() => router.push('/paywall')}
+                  >
+                    <View style={styles.planButtonLeft}>
+                      <Ionicons name="pricetag" size={18} color="#E9D5FF" />
+                      <Text style={styles.planButtonText}>
+                        {isSubscribed ? 'Manage Plan' : 'View Plans'}
+                      </Text>
+                    </View>
+
+                    <View style={styles.planBadge}>
+                      <Text style={styles.planBadgeText}>
+                        {selectedPlan === 'yearly' ? 'YEARLY' : 'MONTHLY'}
+                      </Text>
+                    </View>
+                  </Pressable>
+                </View>
               </View>
             </View>
           }
@@ -186,10 +206,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
+  actions: {
+    marginTop: 18,
+    gap: 12,
+  },
   aiButtonText: {
     color: '#1D1330',
     fontSize: 15,
     fontWeight: '800',
+  },
+  planButton: {
+    borderRadius: 20,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(17,17,31,0.96)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.10)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  planButtonLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flexShrink: 1,
+  },
+  planButtonText: {
+    color: '#FAF7FF',
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  planBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: 'rgba(216,180,254,0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(233,213,255,0.30)',
+  },
+  planBadgeText: {
+    color: '#E9D5FF',
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
   },
   card: {
     minHeight: 180,
