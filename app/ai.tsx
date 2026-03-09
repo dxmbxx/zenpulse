@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -19,86 +20,114 @@ export default function AiScreen() {
   const [promptUsed, setPromptUsed] = useState<string>('');
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.header}>
-          <Text style={styles.eyebrow}>AI MOOD</Text>
-          <Text style={styles.title}>Tune your day</Text>
-          <Text style={styles.subtitle}>
-            Choose how you feel and let ZenPulse craft a gentle, guided
-            affirmation for your current mood.
-          </Text>
-        </View>
+    <LinearGradient
+      colors={['#07070C', '#15162B', '#241B45', '#120F22']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safe}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.heroGlow} />
 
-        <View style={styles.moods}>
-          {moods.map((mood) => (
-            <Pressable
-              key={mood}
-              onPress={() => setSelectedMood(mood)}
-              style={[
-                styles.moodButton,
-                selectedMood === mood && styles.moodButtonActive,
-              ]}
-            >
-              <Text style={styles.moodText}>{mood}</Text>
-            </Pressable>
-          ))}
-        </View>
+          <View style={styles.header}>
+            <View style={styles.pill}>
+              <Text style={styles.pillText}>AI MOOD</Text>
+            </View>
 
-        <PrimaryButton
-          title="Generate my vibe"
-          onPress={() => {
-            const generated = generateAffirmation(selectedMood);
-            setResult(generated.text);
-            setPromptUsed(generated.promptUsed);
-          }}
-        />
+            <Text style={styles.title}>Tune your day</Text>
+            <Text style={styles.subtitle}>
+              Choose how you feel and let ZenPulse craft a gentle, guided
+              affirmation for your current mood.
+            </Text>
+          </View>
 
-        <View style={styles.resultCard}>
-          <Text style={styles.resultLabel}>AI-crafted affirmation</Text>
-          <Text style={styles.resultText}>
-            {result || 'Your affirmation will appear here after generation.'}
-          </Text>
-        </View>
+          <View style={styles.moods}>
+            {moods.map((mood) => (
+              <Pressable
+                key={mood}
+                onPress={() => setSelectedMood(mood)}
+                style={[
+                  styles.moodButton,
+                  selectedMood === mood && styles.moodButtonActive,
+                ]}
+              >
+                <Text style={styles.moodText}>{mood}</Text>
+              </Pressable>
+            ))}
+          </View>
 
-        <View style={styles.promptBox}>
-          <Text style={styles.promptTitle}>Prompt sent to the model</Text>
-          <Text style={styles.promptText}>
-            {promptUsed || 'Prompt will appear here after generation.'}
-          </Text>
-        </View>
+          <PrimaryButton
+            title="Generate my vibe"
+            onPress={() => {
+              const generated = generateAffirmation(selectedMood);
+              setResult(generated.text);
+              setPromptUsed(generated.promptUsed);
+            }}
+          />
 
-        <Pressable onPress={() => router.push('/meditations')}>
-          <Text style={styles.back}>← Back to Meditations</Text>
-        </Pressable>
-      </ScrollView>
-    </SafeAreaView>
+          <View style={styles.resultCard}>
+            <Text style={styles.resultLabel}>AI-crafted affirmation</Text>
+            <Text style={styles.resultText}>
+              {result || 'Your affirmation will appear here after generation.'}
+            </Text>
+          </View>
+
+          <View style={styles.promptBox}>
+            <Text style={styles.promptTitle}>Prompt sent to the model</Text>
+            <Text style={styles.promptText}>
+              {promptUsed || 'Prompt will appear here after generation.'}
+            </Text>
+          </View>
+
+          <Pressable onPress={() => router.push('/meditations')}>
+            <Text style={styles.back}>← Back to Meditations</Text>
+          </Pressable>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: '#07070C',
-  },
+  container: { flex: 1 },
+  safe: { flex: 1 },
   content: {
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 28,
   },
+  heroGlow: {
+    position: 'absolute',
+    top: 10,
+    right: -60,
+    width: 180,
+    height: 180,
+    borderRadius: 999,
+    backgroundColor: 'rgba(203, 172, 255, 0.16)',
+  },
   header: {
     marginBottom: 20,
   },
-  eyebrow: {
-    color: '#C4B5FD',
+  pill: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    marginBottom: 10,
+  },
+  pillText: {
+    color: '#E9D5FF',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 1.1,
-    marginBottom: 8,
   },
   title: {
     color: '#FAF7FF',
@@ -123,24 +152,26 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 18,
     borderRadius: 20,
-    backgroundColor: '#18181B',
+    backgroundColor: 'rgba(17,17,31,0.96)',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#27272A',
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   moodButtonActive: {
     borderColor: '#C084FC',
-    backgroundColor: '#2E1065',
+    backgroundColor: 'rgba(216,180,254,0.12)',
   },
   moodText: {
     fontSize: 28,
   },
   resultCard: {
     marginTop: 22,
-    backgroundColor: '#18181B',
+    backgroundColor: 'rgba(15,15,27,0.9)',
     borderRadius: 24,
     paddingVertical: 18,
     paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
   },
   resultLabel: {
     color: '#C084FC',
@@ -156,10 +187,12 @@ const styles = StyleSheet.create({
   },
   promptBox: {
     marginTop: 16,
-    backgroundColor: '#111827',
+    backgroundColor: 'rgba(17,17,31,0.96)',
     borderRadius: 20,
     paddingVertical: 14,
     paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   promptTitle: {
     color: '#93C5FD',

@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,113 +11,155 @@ export default function MeditationsScreen() {
   const { isSubscribed } = useAppState();
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <FlatList
-        data={meditations}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <View style={styles.header}>
-            <Text style={styles.eyebrow}>DAILY LIBRARY</Text>
-            <Text style={styles.title}>Your meditations</Text>
-            <Text style={styles.subtitle}>
-              Breathe deeper, slow down, and choose the ritual your mind needs today.
-            </Text>
-
-            <Pressable
-              style={styles.aiButton}
-              onPress={() => router.push('/ai')}
-            >
-              <Text style={styles.aiButtonText}>Open AI Mood Feature</Text>
-              <Ionicons name="sparkles" size={18} color="#1D1330" />
-            </Pressable>
-          </View>
-        }
-        renderItem={({ item }) => {
-          const locked = item.premium && !isSubscribed;
-
-          return (
-            <Pressable
-              style={styles.card}
-              onPress={() => {
-                if (locked) {
-                  router.push('/paywall');
-                }
-              }}
-            >
-              <Image source={item.image} style={styles.image} contentFit="cover" />
-              <View style={styles.overlay} />
-
-              <View style={styles.cardContent}>
-                <View style={styles.topRow}>
-                  <View style={styles.metaBadge}>
-                    <Text style={styles.metaBadgeText}>{item.duration}</Text>
-                  </View>
-
-                  {item.premium && (
-                    <View style={[styles.premiumTag, locked && styles.premiumTagLocked]}>
-                      <Text style={styles.premiumTagText}>PREMIUM</Text>
-                    </View>
-                  )}
+    <LinearGradient
+      colors={['#07070C', '#15162B', '#241B45', '#120F22']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safe}>
+        <FlatList
+          data={meditations}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View style={styles.headerWrap}>
+              <View style={styles.heroGlow} />
+              <View style={styles.header}>
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>DAILY LIBRARY</Text>
                 </View>
 
-                <View style={styles.bottomRow}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.cardTitle}>{item.title}</Text>
-                    <Text
-                      style={[
-                        styles.cardSubtitle,
-                        locked && styles.cardSubtitleLocked,
-                      ]}
-                    >
-                      {locked ? 'Locked • Upgrade to listen' : 'Available now'}
-                    </Text>
-                  </View>
+                <Text style={styles.title}>Your meditations</Text>
+                <Text style={styles.subtitle}>
+                  Breathe deeper, slow down, and choose the ritual your mind
+                  needs today.
+                </Text>
 
-                  <View
-                    style={[
-                      styles.iconWrap,
-                      locked && styles.iconWrapLocked,
-                    ]}
-                  >
-                    {locked ? (
-                      <Ionicons name="lock-closed" size={18} color="#fff" />
-                    ) : (
-                      <Ionicons name="play" size={18} color="#fff" />
+                <Pressable
+                  style={styles.aiButton}
+                  onPress={() => router.push('/ai')}
+                >
+                  <Text style={styles.aiButtonText}>Open AI Mood Feature</Text>
+                  <Ionicons name="sparkles" size={18} color="#1D1330" />
+                </Pressable>
+              </View>
+            </View>
+          }
+          renderItem={({ item }) => {
+            const locked = item.premium && !isSubscribed;
+
+            return (
+              <Pressable
+                style={styles.card}
+                onPress={() => {
+                  if (locked) {
+                    router.push('/paywall');
+                  }
+                }}
+              >
+                <Image
+                  source={item.image}
+                  style={styles.image}
+                  contentFit="cover"
+                />
+                <View style={styles.overlay} />
+
+                <View style={styles.cardContent}>
+                  <View style={styles.topRow}>
+                    <View style={styles.metaBadge}>
+                      <Text style={styles.metaBadgeText}>{item.duration}</Text>
+                    </View>
+
+                    {item.premium && (
+                      <View
+                        style={[
+                          styles.premiumTag,
+                          locked && styles.premiumTagLocked,
+                        ]}
+                      >
+                        <Text style={styles.premiumTagText}>PREMIUM</Text>
+                      </View>
                     )}
                   </View>
-                </View>
 
-                {locked && <View style={styles.lockTint} />}
-              </View>
-            </Pressable>
-          );
-        }}
-      />
-    </SafeAreaView>
+                  <View style={styles.bottomRow}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                      <Text
+                        style={[
+                          styles.cardSubtitle,
+                          locked && styles.cardSubtitleLocked,
+                        ]}
+                      >
+                        {locked ? 'Locked • Upgrade to listen' : 'Available now'}
+                      </Text>
+                    </View>
+
+                    <View
+                      style={[
+                        styles.iconWrap,
+                        locked && styles.iconWrapLocked,
+                      ]}
+                    >
+                      {locked ? (
+                        <Ionicons name="lock-closed" size={18} color="#fff" />
+                      ) : (
+                        <Ionicons name="play" size={18} color="#fff" />
+                      )}
+                    </View>
+                  </View>
+
+                  {locked && <View style={styles.lockTint} />}
+                </View>
+              </Pressable>
+            );
+          }}
+        />
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: '#07070C',
-  },
+  container: { flex: 1 },
+  safe: { flex: 1 },
   content: {
     paddingHorizontal: 16,
     paddingTop: 10,
     paddingBottom: 32,
   },
-  header: {
+  headerWrap: {
     marginBottom: 20,
   },
-  eyebrow: {
-    color: '#C4B5FD',
+  header: {
+    marginBottom: 0,
+  },
+  heroGlow: {
+    position: 'absolute',
+    top: 10,
+    right: -60,
+    width: 180,
+    height: 180,
+    borderRadius: 999,
+    backgroundColor: 'rgba(203, 172, 255, 0.16)',
+  },
+  pill: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    marginBottom: 10,
+  },
+  pillText: {
+    color: '#E9D5FF',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 1.1,
-    marginBottom: 8,
   },
   title: {
     color: '#FAF7FF',
@@ -154,7 +197,9 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: 'hidden',
     marginBottom: 16,
-    backgroundColor: '#12121A',
+    backgroundColor: 'rgba(17,17,31,0.96)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   image: {
     width: '100%',
